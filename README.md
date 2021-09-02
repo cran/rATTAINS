@@ -5,9 +5,11 @@
 
 <!-- badges: start -->
 
-[![Project Status: WIP – Initial development is in progress, but there
-has not yet been a stable, usable release suitable for the
-public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/rATTAINS)](https://cran.r-project.org/package=rATTAINS)
+[![Project Status: Active – The project has reached a stable, usable
+state and is being actively
+developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![R-CMD-check](https://github.com/mps9506/rATTAINS/workflows/R-CMD-check/badge.svg)](https://github.com/mps9506/rATTAINS/actions)
 [![codecov](https://codecov.io/gh/mps9506/rATTAINS/branch/master/graph/badge.svg?token=J45QIKWA8E)](https://codecov.io/gh/mps9506/rATTAINS)
 <!-- badges: end -->
@@ -21,15 +23,18 @@ facilitates access to the [public information
 webservice](https://www.epa.gov/waterdata/get-data-access-public-attains-data)
 made available through the EPA.
 
-Install from Github
+rATTAINS is on CRAN:
+
+``` r
+install.packages("rATTAINS")
+```
+
+Or install the development version from Github:
 
 ``` r
 install.packages("remotes")
 remotes::install_github("mps9506/rATTAINS")
 ```
-
-Current plans are to make rATTAINS available on CRAN after sufficient
-documentation.
 
 ## Functions and webservices
 
@@ -252,7 +257,6 @@ in the `hoard::hoardr` class. For example:
 
 ``` r
 x <- surveys(organization_id="SDDENR")
-#> reading cached file from: ~/Library/Caches/R/attains-public/api/surveys/SDDENRsurveys.json
 
 ## find the location of the file path
 surveys_cache$cache_path_get()
@@ -260,10 +264,11 @@ surveys_cache$cache_path_get()
 
 ## return the file names/path
 surveys_cache$list()
-#> [1] "/Users/runner/Library/Caches/R/attains-public/api/surveys/SDDENRsurveys.json"
+#> character(0)
 
 ## delete the files in the cached path
 surveys_cache$delete_all()
+#> no files found
 
 ## or delete specific files
 # surveys_cache$delete("filepath.json")

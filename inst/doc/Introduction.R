@@ -13,22 +13,17 @@ invisible(vcr::vcr_configure(
 ))
 
 
-## -----------------------------------------------------------------------------
-## Uncomment the next two lines to install
-##install.packages(remotes)
-##remotes::install_github("mps9506/rATTAINS")
-library(rATTAINS)
-
 ## ----include=FALSE------------------------------------------------------------
 vcr::insert_cassette("state_summary")
 
 ## ----state_summary, message=FALSE---------------------------------------------
+library(rATTAINS)
 x <- state_summary(organization_id = "TDECWR",
                    reporting_cycle = "2016")
 x
 
 ## ----state_params, message=FALSE----------------------------------------------
-x[[13]][[3]]
+x$parameters[[1]]
 
 ## ----include=FALSE------------------------------------------------------------
 vcr::eject_cassette("state_summary")
@@ -61,7 +56,15 @@ x <- domain_values(domain_name = "UseName", context = "TCEQMAIN")
 x
 
 
+## ----include=FALSE------------------------------------------------------------
+vcr::eject_cassette("domains_works")
+
 ## ----hoard--------------------------------------------------------------------
+## set package option
+rATTAINS_options(cache_downloads = TRUE)
+
+x <- domain_values(domain_name = "UseName", context = "TCEQMAIN")
+
 ## This returns the file path where the files are cached
 dv_cache$cache_path_get()
 
@@ -73,7 +76,4 @@ dv_cache$list()
 
 ## delete all files in the directory
 dv_cache$delete_all()
-
-## ----include=FALSE------------------------------------------------------------
-vcr::eject_cassette("domains_works")
 
