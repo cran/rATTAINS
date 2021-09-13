@@ -346,23 +346,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>To reduce unneeded calls to the server, downloaded JSONs files can be individually cached based on the input arguments. This means if you make a repeated call using the same function and combination of argument values, the function will instead read the cached file. You will want to periodically clean these files to ensure your results are up to date (although given the two year cycles of assessments, do not anticipate data being frequently updated). rATTAINS uses the hoardr package and associated methods to access the file cache. See <code>rATTAINS_caching</code> for additional info, but an example of accessing the file path and deleting files is shown below.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## set package option</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rATTAINS_options</span>(<span class="at">cache_downloads =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; NULL</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">domain_values</span>(<span class="at">domain_name =</span> <span class="st">&quot;UseName&quot;</span>, <span class="at">context =</span> <span class="st">&quot;TCEQMAIN&quot;</span>)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="do">## This returns the file path where the files are cached</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>dv_cache<span class="sc">$</span><span class="fu">cache_path_get</span>()</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;C:\\Users\\MICHAE~1.SCH\\AppData\\Local/Cache/R/attains-public/api/domains&quot;</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="do">## get a list of cached files</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>dv_cache<span class="sc">$</span><span class="fu">list</span>()</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;C:\\Users\\MICHAE~1.SCH\\AppData\\Local/Cache/R/attains-public/api/domains/UseName_TCEQMAINdomains.json&quot;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">domain_values</span>(<span class="at">domain_name =</span> <span class="st">&quot;UseName&quot;</span>, <span class="at">context =</span> <span class="st">&quot;TCEQMAIN&quot;</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="do">## This returns the file path where the files are cached</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>dv_cache<span class="sc">$</span><span class="fu">cache_path_get</span>()</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="do">## get a list of cached files</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>dv_cache<span class="sc">$</span><span class="fu">list</span>()</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="do">## delete one file</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co">#dv_cache$delete(dv_cache$list()[[1]])</span></span>
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="do">## delete one file</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co">#dv_cache$delete(dv_cache$list()[[1]])</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="do">## delete all files in the directory</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>dv_cache<span class="sc">$</span><span class="fu">delete_all</span>()</span></code></pre></div>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="do">## delete all files in the directory</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>dv_cache<span class="sc">$</span><span class="fu">delete_all</span>()</span></code></pre></div>
 <p>The caching objects for each function are as follows:</p>
 <ul>
 <li><code>actions()</code>: <code>actions_cache</code></li>
@@ -377,7 +374,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="notes" class="section level1">
 <h1>Notes</h1>
-<p>The U.S. EPA is the data provider for this public information. rATTAINS and the author are not affliated with the EPA. Questions about the package functionality should be directed to the package author. Questions about the webservice or underlying data should be directed to the U.S. EPA. Please do not abuse the webservice using this package.</p>
+<p>The U.S. EPA is the data provider for this public information. rATTAINS and the author are not affiliated with the EPA. Questions about the package functionality should be directed to the package author. Questions about the webservice or underlying data should be directed to the U.S. EPA. Please do not abuse the webservice using this package.</p>
 </div>
 
 
