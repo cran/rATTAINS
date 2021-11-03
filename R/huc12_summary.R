@@ -35,6 +35,9 @@
 #' }
 huc12_summary <- function(huc, tidy = TRUE, ...) {
 
+  ## check connectivity
+  check_connectivity()
+
   ## check that arguments are character
   coll <- checkmate::makeAssertCollection()
   mapply(FUN = checkmate::assert_character,
@@ -83,6 +86,8 @@ huc12_summary <- function(huc, tidy = TRUE, ...) {
                     file = NULL,
                     ...)
   }
+
+  if(is.null(content)) return(content)
 
   if(!isTRUE(tidy)) {
     return(content)

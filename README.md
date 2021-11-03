@@ -11,7 +11,9 @@ status](https://www.r-pkg.org/badges/version/rATTAINS)](https://cran.r-project.o
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![R-CMD-check](https://github.com/mps9506/rATTAINS/workflows/R-CMD-check/badge.svg)](https://github.com/mps9506/rATTAINS/actions)
-[![codecov](https://codecov.io/gh/mps9506/rATTAINS/branch/master/graph/badge.svg?token=J45QIKWA8E)](https://codecov.io/gh/mps9506/rATTAINS)
+[![codecov](https://codecov.io/gh/mps9506/rATTAINS/branch/master/graph/badge.svg?token=J45QIKWA8E)](https://app.codecov.io/gh/mps9506/rATTAINS)
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5469911.svg)](https://doi.org/10.5281/zenodo.5469911)
 <!-- badges: end -->
 
 rATTAINS provides functions for downloading tidy data from the United
@@ -113,9 +115,9 @@ Get a summary about assessed uses, parameters and plans in a HUC12:
 huc12_summary(huc = "020700100204")
 #> $huc_summary
 #> # A tibble: 1 × 14
-#>   huc12        assessment_unit… total_catchment… total_huc_area_… assessed_catchm…
-#>   <chr>                   <dbl>            <dbl>            <dbl>            <dbl>
-#> 1 020700100204               20             46.2             46.2             44.1
+#>   huc12  assessment_unit_… total_catchment_a… total_huc_area_… assessed_catchme…
+#>   <chr>              <dbl>              <dbl>            <dbl>             <dbl>
+#> 1 02070…                20               46.2             46.2              44.1
 #> # … with 9 more variables: assessed_catchment_area_percent <dbl>,
 #> #   assessed_good_catchment_area_sq_mi <dbl>,
 #> #   assessed_good_catchment_area_percent <dbl>,
@@ -128,8 +130,8 @@ huc12_summary(huc = "020700100204")
 #> # A tibble: 20 × 1
 #>    assessment_unit_id                      
 #>    <chr>                                   
-#>  1 MD-02140205-Northwest_Branch            
-#>  2 MD-ANATF-02140205                       
+#>  1 MD-ANATF-02140205                       
+#>  2 MD-02140205-Northwest_Branch            
 #>  3 MD-02140205                             
 #>  4 DCTFD01R_00                             
 #>  5 MD-ANATF                                
@@ -247,8 +249,8 @@ str(df)
 
 ## File Caching
 
-By default rATTAINS will cache downloaded data to minimize calls to the
-EPA webservice. If a function is run with the same arguments, the cached
+rATTAINS can cache downloaded data to minimize calls to the EPA
+webservice. If a function is run with the same arguments, the cached
 file will be read instead of downloading from the webservice. A message
 will print if the cached file is used. It is probably a good idea to
 periodically delete the cached files, especially when updating packages
@@ -256,17 +258,48 @@ or R. The cached file paths and files can be managed using the methods
 in the `hoard::hoardr` class. For example:
 
 ``` r
+## set package option
+rATTAINS_options(cache_downloads = TRUE)
+#> NULL
+
 x <- surveys(organization_id="SDDENR")
 
 ## find the location of the file path
 surveys_cache$cache_path_get()
 #> [1] "~/Library/Caches/R/attains-public/api/surveys"
+
 ## return the file names/path
 surveys_cache$list()
-#> character(0)
+#> [1] "/Users/runner/Library/Caches/R/attains-public/api/surveys/SDDENRsurveys.json"
+
 ## delete the files in the cached path
 surveys_cache$delete_all()
-#> no files found
+
 ## or delete specific files
 # surveys_cache$delete("filepath.json")
+```
+
+## Citation
+
+If you use this package in a publication, please cite as:
+
+``` r
+citation("rATTAINS")
+#> 
+#> To cite rATTAINS in publications use:
+#> 
+#>   Schramm, Michael (2021).  rATTAINS: Access EPA 'ATTAINS' Data.  R
+#>   package version 0.1.3. doi:10.5281/zenodo.3635017
+#>   https://CRAN.R-project.org/package=rATTAINS
+#> 
+#> A BibTeX entry for LaTeX users is
+#> 
+#>   @Manual{,
+#>     title = {{rATTAINS}: Access EPA 'ATTAINS' Data},
+#>     author = {Michael Schramm},
+#>     year = {2021},
+#>     url = {https://CRAN.R-project.org/package=rATTAINS},
+#>     doi = {10.5281/zenodo.5469911},
+#>     note = {R package version 0.1.3},
+#>   }
 ```

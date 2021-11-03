@@ -42,6 +42,9 @@ domain_values <- function(domain_name = NULL,
                           tidy = TRUE,
                           ...) {
 
+  ## check connectivity
+  check_connectivity()
+
   ## check that arguments are character
   coll <- makeAssertCollection()
   mapply(FUN = assert_character,
@@ -98,6 +101,8 @@ domain_values <- function(domain_name = NULL,
                     file = NULL,
                     ...)
   }
+
+  if(is.null(content)) return(content)
 
   if(!isTRUE(tidy)) {
     return(content)

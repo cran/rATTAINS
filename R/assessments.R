@@ -73,6 +73,9 @@ assessments <- function(assessment_unit_id = NULL,
                         tidy = TRUE,
                         ...) {
 
+  ## check connectivity
+  check_connectivity()
+
   ## check that arguments are character
   coll <- checkmate::makeAssertCollection()
   mapply(FUN = checkmate::assert_character,
@@ -161,6 +164,8 @@ assessments <- function(assessment_unit_id = NULL,
                     file = NULL,
                     ...)
   }
+
+  if(is.null(content)) return(content)
 
   if (!isTRUE(tidy)) {
     return(content)

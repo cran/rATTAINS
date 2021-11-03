@@ -15,22 +15,54 @@ xGET <- function(path, args = list(), file = NULL, ...) {
   url <- "https://attains.epa.gov"
   cli <- crul::HttpClient$new(url,
                               opts = list(...))
-  if(isTRUE(rATTAINSenv$cache_downloads)) {
-    res <- cli$get(path = path,
-                   disk = file,
-                   query = args)
-  } else {
-    res <- cli$get(path = path,
-                   query = args)
-  }
+
+  full_url <- cli$url_fetch(path = path,
+                            query = args)
+
+  tryCatch({
+    res <- if(isTRUE(rATTAINSenv$cache_downloads)) {
+      cli$retry("GET",
+                path = path,
+                disk = file,
+                query = args,
+                pause_base = 5,
+                pause_cap = 60,
+                pause_min = 5,
+                terminate_on = c(404),
+                ...)
+      } else {
+        cli$retry("GET",
+                  path = path,
+                  query = args,
+                  pause_base = 5,
+                  pause_cap = 60,
+                  pause_min = 5,
+                  terminate_on = c(404),
+                  ...)
+      }
+    if (!res$success()) {
+      stop(call. = FALSE)
+      }
+    },
+    error = function(e) {
+      e$message <-
+        paste("Something went wrong with the query, no data were returned.",
+              "Please see <https://attains.epa.gov> for potential server",
+              "issues.\n")
+      e$call <- NULL
+      stop(e)
+      }
+  )
 
   errs(res)
 
-  content <- res$parse("UTF-8")
-  # file.create(file)
-  #cat(content, file = file)
+  if (!is.null(res)) {
+    content <- res$parse("UTF-8")
+  } else {
+    content <- NULL
+    warning("Sorry, no data found", call. = FALSE)
+  }
 
-  #attr(content, 'url') <- res$url
 
 
   return(content)
@@ -66,5 +98,28 @@ file_key <- function(arg_list, name) {
   x <- paste0(x, name)
   x <- gsub(" ", "_", x, fixed = TRUE)
   return(x)
+}
+
+
+
+#' Check connectivity
+#'
+#' @param host a string with a hostname
+#'
+#' @return logical value
+#' @keywords internal
+#' @noRd
+#' @importFrom curl nslookup
+has_internet_2 <- function(host) {
+  !is.null(nslookup(host, error = FALSE))
+}
+
+
+check_connectivity <- function() {
+  ## check connectivity
+  if (!has_internet_2("attains.epa.gov")) {
+    message("No connection to attains.epa.gov available")
+    return(invisible(NULL))
+  }
 }
 
