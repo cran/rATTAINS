@@ -6,7 +6,7 @@ http_interactions:
       encoding: ''
       string: ''
     headers:
-      User-Agent: libcurl/7.64.1 r-curl/4.3.2 crul/1.1.0
+      User-Agent: libcurl/7.64.1 r-curl/4.3.3 crul/1.3
       Accept-Encoding: gzip, deflate
       Accept: application/json, text/xml, application/xml, */*
   response:
@@ -16,7 +16,7 @@ http_interactions:
       explanation: Request fulfilled, document follows
     headers:
       status: HTTP/1.1 200 200
-      date: Wed, 03 Nov 2021 13:54:28 GMT
+      date: Tue, 10 Jan 2023 18:27:16 GMT
       server: Apache
       strict-transport-security: max-age=31536000; includeSubDomains
       access-control-allow-headers: Content-Type
@@ -29,7 +29,7 @@ http_interactions:
       access-control-allow-origin: '*'
       transfer-encoding: chunked
     body:
-      encoding: UTF-8
+      encoding: ''
       file: no
       string: '{"data":{"organizationIdentifier":"TDECWR","organizationName":"Tennessee","organizationTypeText":"State","reportingCycles":[{"reportingCycle":"2016","combinedCycles":[],"waterTypes":[{"waterTypeCode":"LAKE/RESERVOIR/POND","unitsCode":"Acres","useAttainments":[{"useName":"Fish
         and Aquatic Life","Fully Supporting":531027.34,"Fully Supporting-count":55,"Not
@@ -100,5 +100,5 @@ http_interactions:
         Watering and Wildlife","Fully Supporting":26544.25,"Fully Supporting-count":2697,"Not
         Assessed":33891.87,"Not Assessed-count":2954,"Not Supporting":1,"Not Supporting-count":1,"parameters":[{"parameterGroup":"SALINITY/TOTAL
         DISSOLVED SOLIDS/CHLORIDES/SULFATES","Cause":1,"Cause-count":1}]}]}]}]},"messages":[]}'
-  recorded_at: 2021-11-03 13:54:29 GMT
-  recorded_with: vcr/1.0.2, webmockr/0.8.0
+  recorded_at: 2023-01-10 18:27:15 GMT
+  recorded_with: vcr/1.2.0, webmockr/0.8.2

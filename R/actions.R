@@ -66,10 +66,7 @@
 #'   tibbles including documents and actions identified by the query. If
 #'   \code{tidy = FALSE} the raw JSON string is returned, else the JSON data is
 #'   parsed and returned as tibbles.
-#' @note See [domain_values] to search values that can be queried. Data
-#'   downloaded from the EPA webservice is automatically cached to reduce
-#'   uneccessary calls to the server. To managed cached files see
-#'   [rATTAINS_caching]
+#' @note See [domain_values] to search values that can be queried.
 #' @export
 #' @importFrom checkmate assert_character assert_logical makeAssertCollection
 #'   reportAssertions
@@ -107,7 +104,7 @@ actions <- function(action_id = NULL,
                     ...) {
 
   ## check connectivity
-  check_connectivity()
+  #check_connectivity()
 
   ## check that arguments are character
   coll <- checkmate::makeAssertCollection()
@@ -175,34 +172,14 @@ actions <- function(action_id = NULL,
   if(is_empty(args_present)) {
     stop("One of the following arguments must be provided: action_id, assessment_unit_id, state_code, or organization_id")
   }
-
-  ## setup file cache
   path <- "attains-public/api/actions"
-  if(isTRUE(rATTAINSenv$cache_downloads)) {
-    actions_cache$mkdir()
 
-    ## check if current results have been cached
-    file_cache_name <- file_key(arg_list = args,
-                                name = "actions.json")
-    file_path_name <- fs::path(actions_cache$cache_path_get(),
-                               file_cache_name)
-    if(file.exists(file_path_name)) {
-      message(paste0("reading cached file from: ", file_path_name))
-      content <- readLines(file_path_name, warn = FALSE)
-    } else {
-      ## download data
-      content <- xGET(path,
-                      args,
-                      file = file_path_name,
-                      ...)
-    }
-  } else {
-    ## download data without caching
-    content <- xGET(path,
-                    args,
-                    file = NULL,
-                    ...)
-  }
+  ## download data without caching
+  content <- xGET(path,
+                  args,
+                  file = NULL,
+                  ...)
+
 
   if(is.null(content)) return(content)
   ## return raw JSON
@@ -238,7 +215,7 @@ actions_to_tibble <- function(content,
   if(isTRUE(count)) {
     return(content %>%
              spread_all() %>%
-             select(.data$count) %>%
+             select("count") %>%
              as_tibble() %>%
              clean_names())
   } else {
@@ -247,11 +224,11 @@ actions_to_tibble <- function(content,
         enter_object("items") %>%
         gather_array() %>%
         spread_all() %>%
-        select(-c(.data$array.index, .data$document.id)) %>%
+        select(-c("array.index", "document.id")) %>%
         enter_object("actions") %>%
         gather_array() %>%
         spread_all(recursive = TRUE) %>%
-        select(-c(.data$array.index)) %>%
+        select(-"array.index") %>%
         as_tibble() %>%
         clean_names() -> content
       return(content)
@@ -260,20 +237,20 @@ actions_to_tibble <- function(content,
         enter_object("items") %>%
         gather_array() %>%
         spread_all() %>%
-        select(-c(.data$array.index)) %>%
+        select(-"array.index") %>%
         enter_object("actions") %>%
         gather_array() %>%
         spread_all() %>%
-        select(-c(.data$array.index)) %>%
+        select(-"array.index") %>%
         enter_object("associatedWaters") %>%
         enter_object("specificWaters") %>%
         gather_array() %>%
         spread_all() %>%
-        select(-c(.data$array.index)) %>%
+        select(-"array.index") %>%
         enter_object("associatedPollutants") %>%
         gather_array() %>%
         spread_all(recursive = TRUE) %>%
-        select(-c(.data$document.id, .data$array.index)) %>%
+        select(-c("document.id", "array.index")) %>%
         as_tibble() %>%
         clean_names() -> content_actions
 
@@ -281,20 +258,20 @@ actions_to_tibble <- function(content,
         enter_object("items") %>%
         gather_array() %>%
         spread_all() %>%
-        select(-c(.data$array.index, .data$document.id)) %>%
+        select(-c("array.index", "document.id")) %>%
         enter_object("actions") %>%
         gather_array() %>%
         spread_all() %>%
-        select(-c(.data$array.index)) %>%
-        dplyr::rename(agencyCode_1 = .data$agencyCode) %>%
+        select(-"array.index") %>%
+        dplyr::rename(agencyCode_1 = "agencyCode") %>%
         enter_object("documents") %>%
         gather_array() %>%
         spread_all() %>%
-        select(-c(.data$array.index)) %>%
+        select(-c("array.index")) %>%
         enter_object("documentTypes") %>%
         gather_array() %>%
         spread_all(recursive = TRUE) %>%
-        select(-c(.data$array.index)) %>%
+        select(-c("array.index")) %>%
         as_tibble() %>%
         clean_names()-> content_docs
 

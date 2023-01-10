@@ -22,10 +22,7 @@
 #'   tibbles including documents, use assessment data, and parameters assessment
 #'   data identified by the query. If \code{tidy = FALSE} the raw JSON string is
 #'   returned, else the JSON data is parsed and returned as a list of tibbles.
-#' @note See [domain_values] to search values that can be queried. Data
-#'   downloaded from the EPA webservice is automatically cached to reduce
-#'   uneccessary calls to the server. To managed cached files see
-#'   [rATTAINS_caching]
+#' @note See [domain_values] to search values that can be queried.
 #' @importFrom checkmate assert_character assert_logical makeAssertCollection
 #'   reportAssertions
 #' @importFrom fs path
@@ -81,35 +78,13 @@ plans <- function(huc,
     stop("One of the following arguments must be provided: huc")
   }
 
-
-  ##setup file cache
   path = "attains-public/api/plans"
-  if(isTRUE(rATTAINSenv$cache_downloads)) {
-    plans_cache$mkdir()
 
-    ## check if current results have been cached
-    file_cache_name <- file_key(arg_list = args,
-                                name = "plans.json")
-    file_path_name <- fs::path(plans_cache$cache_path_get(),
-                               file_cache_name)
-
-    if(file.exists(file_path_name)) {
-      message(paste0("reading cached file from: ", file_path_name))
-      content <- readLines(file_path_name, warn = FALSE)
-    } else {
-      ## download data
-      content <- xGET(path,
-                      args,
-                      file = file_path_name,
-                      ...)
-    }
-  } else {
-    ## download data without caching
-    content <- xGET(path,
-                    args,
-                    file = NULL,
-                    ...)
-  }
+  ## download data without caching
+  content <- xGET(path,
+                  args,
+                  file = NULL,
+                  ...)
 
   if(is.null(content)) return(content)
 
@@ -147,7 +122,7 @@ plans_to_tibble <- function(content, summarize) {
                     completionDate = jstring("completionDate"),
                     organizationId = jstring("organizationId"),
                     associatedActions = jstring("associatedActions")) %>%
-      select(-c(.data$document.id, .data$array.index)) %>%
+      select(-c("document.id", "array.index")) %>%
       enter_object("TMDLReportDetails") %>%
       spread_values(TMDLOtherIdentifier = jstring("TMDLOtherIdentifier"),
                     TMDLDate = jstring("TMDLDate"),
@@ -159,7 +134,7 @@ plans_to_tibble <- function(content, summarize) {
       enter_object("items") %>%
       gather_array() %>%
       spread_values(actionIdentifer = jstring("actionIdentifier")) %>%
-      select(-c(.data$document.id, .data$array.index)) %>%
+      select(-c("document.id", "array.index")) %>%
       enter_object("documents") %>%
       gather_array() %>%
       spread_values(documentFileType = jstring("docuementFileType"),
@@ -168,11 +143,11 @@ plans_to_tibble <- function(content, summarize) {
                     documentDescription = jstring("documentDescription"),
                     documentComments = jstring("documentComments"),
                     documentURL = jstring("documentURL")) %>%
-      select(-c(.data$array.index))  %>%
+      select(-c("array.index"))  %>%
       enter_object("documentTypes") %>%
       gather_array() %>%
       spread_values(documentTypeCode = jstring("documentTypeCode")) %>%
-      select(-c(.data$array.index)) %>%
+      select(-c("array.index")) %>%
       as_tibble() %>%
       clean_names() -> content_documents
 
@@ -180,20 +155,20 @@ plans_to_tibble <- function(content, summarize) {
       enter_object("items") %>%
       gather_array() %>%
       spread_values(actionIdentifer = jstring("actionIdentifier")) %>%
-      select(-c(.data$document.id, .data$array.index)) %>%
+      select(-c("document.id", "array.index")) %>%
       enter_object("associatedWaters") %>%
       spread_all() %>%
       enter_object("specificWaters") %>%
       gather_array() %>%
       spread_values(assessmentUnitIdentifier = jstring("assessmentUnitIdentifier")) %>%
-      select(-c(.data$array.index))  %>%
+      select(-c("array.index"))  %>%
       enter_object("associatedPollutants") %>%
       gather_array() %>%
       spread_values(pollutantName = jstring("pollutantName"),
                     explicitMarginofSafetyText = jstring("explicitMarginofSafetyText"),
                     implicitMarginofSafetyText = jstring("implicitMarginofSafetyText"),
                     TMDLEndPointText = jstring("TMDLEndPointText")) %>%
-      select(-c(.data$array.index))  %>%
+      select(-"array.index")  %>%
       as_tibble() %>%
       clean_names()  -> content_associated_pollutants
 
@@ -201,21 +176,21 @@ plans_to_tibble <- function(content, summarize) {
       enter_object("items") %>%
       gather_array() %>%
       spread_values(actionIdentifer = jstring("actionIdentifier")) %>%
-      select(-c(.data$document.id, .data$array.index)) %>%
+      select(-c("document.id", "array.index")) %>%
       enter_object("associatedWaters") %>%
       spread_all() %>%
       enter_object("specificWaters") %>%
       gather_array() %>%
       spread_values(assessmentUnitIdentifier = jstring("assessmentUnitIdentifier")) %>%
-      select(-c(.data$array.index))  %>%
+      select(-"array.index")  %>%
       enter_object("parameters") %>%
       gather_array() %>%
       spread_values(parameterName = jstring("parameterName")) %>%
-      select(-c(.data$array.index))  %>%
+      select("array.index")  %>%
       enter_object("associatedPollutants") %>%
       gather_array() %>%
       spread_values(pollutantName = jstring("pollutantName")) %>%
-      select(-c(.data$array.index)) %>%
+      select(-"array.index") %>%
       as_tibble() %>%
       clean_names()  -> content_associated_parameters
 
@@ -223,17 +198,17 @@ plans_to_tibble <- function(content, summarize) {
       enter_object("items") %>%
       gather_array() %>%
       spread_values(actionIdentifer = jstring("actionIdentifier")) %>%
-      select(-c(.data$document.id, .data$array.index)) %>%
+      select(-c("document.id", "array.index")) %>%
       enter_object("associatedWaters") %>%
       spread_all() %>%
       enter_object("specificWaters") %>%
       gather_array() %>%
       spread_values(assessmentUnitIdentifier = jstring("assessmentUnitIdentifier")) %>%
-      select(-c(.data$array.index)) %>%
+      select(-"array.index") %>%
       enter_object("associatedPollutants") %>%
       gather_array() %>%
       spread_values(pollutantName = jstring("pollutantName")) %>%
-      select(-c(.data$array.index)) %>%
+      select(-"array.index") %>%
       enter_object("permits") %>%
       gather_array() %>%
       spread_values(NPDESIdentifier = jstring("NPDESIdentifier"),
@@ -248,7 +223,7 @@ plans_to_tibble <- function(content, summarize) {
           )
         }
       })) %>%
-      unnest(.data$details, keep_empty = TRUE) %>%
+      unnest("details", keep_empty = TRUE) %>%
       as_tibble() %>%
       clean_names() -> content_associated_permits
 
@@ -271,7 +246,7 @@ plans_to_tibble <- function(content, summarize) {
                     completionDate = jstring("completionDate"),
                     organizationId = jstring("organizationId"),
                     associatedActions = jstring("associatedActions")) %>%
-      select(-c(.data$document.id, .data$array.index)) %>%
+      select(-c("document.id", "array.index")) %>%
       enter_object("TMDLReportDetails") %>%
       spread_values(TMDLOtherIdentifier = jstring("TMDLOtherIdentifier"),
                     TMDLDate = jstring("TMDLDate"),
@@ -283,12 +258,12 @@ plans_to_tibble <- function(content, summarize) {
       enter_object("items") %>%
       gather_array() %>%
       spread_values(actionIdentifer = jstring("actionIdentifier")) %>%
-      select(-c(.data$document.id, .data$array.index)) %>%
+      select(-c("document.id", "array.index")) %>%
       enter_object("associatedPollutants") %>%
       gather_array() %>%
       spread_values(pollutantName = jstring("pollutantName"),
                     auCount = jstring("auCount")) %>%
-      select(-c(.data$array.index))  %>%
+      select(-"array.index")  %>%
       as_tibble() %>%
       clean_names()  -> content_associated_pollutants
 
@@ -296,12 +271,12 @@ plans_to_tibble <- function(content, summarize) {
       enter_object("items") %>%
       gather_array() %>%
       spread_values(actionIdentifer = jstring("actionIdentifier")) %>%
-      select(-c(.data$document.id, .data$array.index)) %>%
+      select(-c("document.id", "array.index")) %>%
       enter_object("parameters") %>%
       gather_array() %>%
       spread_values(parameterName = jstring("parameterName"),
                     auCount = jstring("auCount")) %>%
-      select(-c(.data$array.index)) %>%
+      select(-"array.index") %>%
       as_tibble() %>%
       clean_names()  -> content_associated_parameters
 
