@@ -1,6 +1,6 @@
 Package: rATTAINS
 Title: Access EPA 'ATTAINS' Data
-Version: 0.1.4
+Version: 1.0.0
 Authors@R: 
     person(given = "Michael",
            family = "Schramm",
@@ -14,21 +14,21 @@ Description: An R interface to United States Environmental Protection Agency (EP
     Clean Water Act requirements. ATTAINS information and API information is available at <https://www.epa.gov/waterdata/attains>.
 License: MIT + file LICENSE
 Encoding: UTF-8
-RoxygenNote: 7.2.2
-Imports: checkmate, crul, curl, dplyr, fauxpas, fs, janitor, magrittr,
-        purrr, rlang, rlist, tibble, tidyjson, tidyr
+RoxygenNote: 7.2.3
+Imports: checkmate, crul, curl, dplyr, fauxpas, fs, jsonlite,
+        lifecycle, rlang, rlist, tibblify, tidyr, tidyselect
 Suggests: vcr (>= 0.6.0), testthat (>= 3.0.0), knitr, rmarkdown,
         webmockr
 BugReports: https://github.com/mps9506/rATTAINS/issues
 URL: https://github.com/mps9506/rATTAINS,
         https://mps9506.github.io/rATTAINS/
 VignetteBuilder: knitr
-Config/Needs/website: mps9506/mpsTemplates, ggrepel, ggplot2
+Config/Needs/website: mps9506/mpsTemplates, ggrepel, ggplot2, ggtext
 Config/testthat/edition: 3
 NeedsCompilation: no
-Packaged: 2023-01-10 18:27:19 UTC; michael.schramm
+Packaged: 2023-04-25 13:17:03 UTC; michael.schramm
 Author: Michael Schramm [aut, cre, cph]
     (<https://orcid.org/0000-0003-1876-6592>)
 Maintainer: Michael Schramm <mpschramm@gmail.com>
 Repository: CRAN
-Date/Publication: 2023-01-10 18:40:02 UTC
+Date/Publication: 2023-04-25 14:00:02 UTC

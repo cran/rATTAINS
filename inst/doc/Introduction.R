@@ -9,7 +9,7 @@ knitr::opts_chunk$set(
 library(vcr)
 invisible(vcr::vcr_configure(
   dir = "../tests/fixtures",
-  write_disk_path = "../tests/files"
+  write_disk_path = NULL
 ))
 
 
@@ -21,9 +21,6 @@ library(rATTAINS)
 x <- state_summary(organization_id = "TDECWR",
                    reporting_cycle = "2016")
 x
-
-## ----state_params, message=FALSE----------------------------------------------
-x$parameters[[1]]
 
 ## ----include=FALSE------------------------------------------------------------
 vcr::eject_cassette("state_summary")
