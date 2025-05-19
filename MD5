@@ -1,7 +1,7 @@
-1b5f98f1ef431cf9961245dbc78a5a63 *DESCRIPTION
+c63db375a2c377227eb10a23b108f683 *DESCRIPTION
 675faddd8e2567ef95dab35367258ca9 *LICENSE
 6777d4ae23ba255e751d486b7cd354db *NAMESPACE
-b02a17fce352ee3ad38a918e6a799243 *NEWS.md
+137f6def616e222209a3788c19b5c1da *NEWS.md
 40965c34f78f3808e4315a067c9cf6d0 *R/actions.R
 13886b041cad523a0e52d9bf77da08ef *R/assessment_units.R
 cb17e650dd900df579a978474d68bef4 *R/assessments.R
@@ -12,12 +12,12 @@ f6cea84c6afbecf6f1e58368ca565d4d *R/plans.R
 e043777e46a94d011dbf42c74c1ce252 *R/rATTAINS-package.R
 de2b3626f3b40910668739006eabf51b *R/state_summary.R
 f7820a9336cf09cf5f629ee5ac6049c9 *R/survey.R
-b5858a5a81ba0aa137f0a56961d3324f *README.md
-51d24c47cb654d2ec2b3c2415731b137 *build/vignette.rds
-5be76308fb252deca37752fd78b85a01 *inst/CITATION
-cab11cc2d8ca83349dc409683c4c3c26 *inst/doc/Introduction.R
-5bf37a18b559c035a2222a212411bd2b *inst/doc/Introduction.Rmd
-0765b71151747f0b0c3c96901d42b8de *inst/doc/Introduction.html
+2417b48911d21376baa855eb05bc3472 *README.md
+386f4a21a628616e7c2d1012525e85e8 *build/vignette.rds
+2cf2adbec0873347f6c92ad0f9b111d2 *inst/CITATION
+ba0dd2e3a4c243a59c826d1c47ae25df *inst/doc/Introduction.R
+ebfedc38751eab953593ceafd015d127 *inst/doc/Introduction.Rmd
+2ef5f10166c855a4cb5ac0221cfeeb8a *inst/doc/Introduction.html
 a05514f3f70be01adfa2175862acd511 *man/actions.Rd
 e187b5e76cc6a91f83485a782b5cb0b7 *man/assessment_units.Rd
 b20339a286eddad34ca97aaf8c071aba *man/assessments.Rd
@@ -71,4 +71,4 @@ d65332ac1043210b39431a06db9657d2 *tests/testthat/test-domain_values.R
 391c421d09cc8dd3ef419b3a5315f893 *tests/testthat/test-plans.R
 24dbbf4d8abecaf226df5fba605a85dc *tests/testthat/test-state_summary.R
 f658ed9e8d62df1af26a0d545e903219 *tests/testthat/test-survey.R
-5bf37a18b559c035a2222a212411bd2b *vignettes/Introduction.Rmd
+ebfedc38751eab953593ceafd015d127 *vignettes/Introduction.Rmd

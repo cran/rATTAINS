@@ -23,7 +23,7 @@ x <- state_summary(organization_id = "TDECWR",
 x
 
 ## ----include=FALSE------------------------------------------------------------
-vcr::eject_cassette("state_summary")
+vcr::eject_cassette()
 
 ## ----include=FALSE------------------------------------------------------------
 vcr::insert_cassette("huc12_works")
@@ -33,7 +33,7 @@ x <- huc12_summary("020700100204")
 x
 
 ## ----include=FALSE------------------------------------------------------------
-vcr::eject_cassette("huc12_works")
+vcr::eject_cassette()
 
 ## ----include=FALSE------------------------------------------------------------
 vcr::insert_cassette("single_domain")
@@ -43,7 +43,7 @@ x <- domain_values(domain_name = "OrgStateCode")
 x
 
 ## ----include=FALSE------------------------------------------------------------
-vcr::eject_cassette("single_domain")
+vcr::eject_cassette()
 
 ## ----include=FALSE------------------------------------------------------------
 vcr::insert_cassette("domains_works")
@@ -54,5 +54,5 @@ x
 
 
 ## ----include=FALSE------------------------------------------------------------
-vcr::eject_cassette("domains_works")
+vcr::eject_cassette()
 
